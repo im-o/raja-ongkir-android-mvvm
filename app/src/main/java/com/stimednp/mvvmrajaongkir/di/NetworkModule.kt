@@ -26,13 +26,7 @@ object NetworkModule {
 
     @Provides
     fun providesBaseUrl(): String {
-
-        /**
-         * Replace API_KEY with your API Key Raja Ongkir : https://rajaongkir.com/akun/panel
-         * Example : "9fbc12**********************"
-         */
-
-        return API_KEY
+        return BuildConfig.BASE_URL
     }
 
     @Provides

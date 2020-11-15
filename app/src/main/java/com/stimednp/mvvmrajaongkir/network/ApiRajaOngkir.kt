@@ -14,20 +14,21 @@ interface ApiRajaOngkir {
 
     @GET("province")
     suspend fun getProvinces(
-        @Header("key") apiKey: String
+        @Query("key") apiKey: String?
     ) : ProvinceResponse
 
     @GET("city")
     suspend fun getCities(
-        @Header("key") apiKey: String
+        @Query("key") apiKey: String?
     ) : CityResponse
 
-    @POST("city")
+    @FormUrlEncoded
+    @POST("cost")
     suspend fun getCost(
-        @Header("key") apiKey: String,
-        @Field("origin") origin: String,
-        @Field("destination") destination: String,
-        @Field("weight") weight: Int,
-        @Field("courier") courier: String
+        @Header("key") apiKey: String?,
+        @Field("origin") origin: String?,
+        @Field("destination") destination: String?,
+        @Field("weight") weight: Int?,
+        @Field("courier") courier: String?
     ) : CostResponse
 }
