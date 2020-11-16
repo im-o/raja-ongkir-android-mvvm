@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">MVVM Raja Ongkir</string>
+    <string name="choose_province">Choose Province</string>
+    <string name="str_choose_province">- Choose Province -</string>
+    <string name="choose_city">- Choose City -</string>
+    <string name="postage_fee">Postage Fee :</string>
+    <string name="rp0">Rp0</string>
+    <string name="destination_city">Destination City</string>
+    <string name="origin_city">Origin City</string>
+    <string name="weight_gram">Weight (gram)</string>
+    <string name="check_postage_fee">Check Postage Fee</string>
+    <string name="courier">Courier</string>
+    <string name="form_empty">Some Form is Empty!</string>
+
+    <string-array name="list_courier">
+        <item>POS</item>
+        <item>TIKI</item>
+        <item>JNE</item>
+    </string-array>
 </resources>
