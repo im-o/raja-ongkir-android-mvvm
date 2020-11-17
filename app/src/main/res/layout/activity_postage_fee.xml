@@ -24,7 +24,6 @@
         android:id="@+id/costListRV"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
         android:clipToPadding="false"
         android:nestedScrollingEnabled="false"
         android:paddingStart="12dp"

@@ -34,8 +34,8 @@ class DataUseCase @Inject constructor(
     }
 
     suspend fun getCities(apiKey: String): ResultData<CityResponse> {
-        val cityResponse = dataRepository.getCities(apiKey)
         return try {
+            val cityResponse = dataRepository.getCities(apiKey)
             if (cityResponse.rajaOngkir?.status?.code == STATUS_OK) {
                 ResultData.Success(cityResponse)
             } else {

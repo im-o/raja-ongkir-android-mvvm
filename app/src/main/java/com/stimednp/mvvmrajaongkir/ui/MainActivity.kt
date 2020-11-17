@@ -26,7 +26,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initViewModel()
-        initClick()
     }
 
     private fun initClick() {
@@ -44,6 +43,7 @@ class MainActivity : AppCompatActivity() {
         binding.destinationAutoCompleteTV.setAdapter(cityAdapter)
         binding.originAutoCompleteTV.setAdapter(cityAdapter)
         binding.courierAutoCompleteTV.setAdapter(courierAdapter)
+        initClick()
     }
 
     private fun initViewModel() {
@@ -57,9 +57,15 @@ class MainActivity : AppCompatActivity() {
                     binding.loadingPB.gone()
                     initSpinner(it.data?.rajaOngkir?.results ?: return@observe)
                 }
+                is ResultData.Failed -> {
+                    myToast("SOMETHING FAILED : $it")
+                }
+                is ResultData.Exception -> {
+                    myToast("SOMETHING EXCEPTION : $it")
+                }
                 else -> {
                     binding.loadingPB.gone()
-                    loge("SOMETHING ERROR : $it")
+                    myToast("SOMETHING ELSE : $it")
                 }
             }
         })
@@ -112,7 +118,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 else -> {
                     binding.loadingPB.gone()
-                    loge("SOMETHING ERROR : $it")
+                    loge("SOMETHING ELSE : $it")
                 }
             }
         })
