@@ -8,11 +8,10 @@ import com.stimednp.mvvmrajaongkir.APIKey.Companion.API_KEY
 import com.stimednp.mvvmrajaongkir.R
 import com.stimednp.mvvmrajaongkir.databinding.ActivityMainBinding
 import com.stimednp.mvvmrajaongkir.model.CityResponse
+import com.stimednp.mvvmrajaongkir.model.CostPostageFee
+import com.stimednp.mvvmrajaongkir.model.CostResponse
 import com.stimednp.mvvmrajaongkir.model.ResultData
-import com.stimednp.mvvmrajaongkir.util.gone
-import com.stimednp.mvvmrajaongkir.util.loge
-import com.stimednp.mvvmrajaongkir.util.myToast
-import com.stimednp.mvvmrajaongkir.util.visible
+import com.stimednp.mvvmrajaongkir.util.*
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
@@ -109,7 +108,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 is ResultData.Success -> {
                     binding.loadingPB.gone()
-                    loge("COST : ${it.data?.rajaOngkir?.results?.size}")
+                    setupAdapter(it.data?.rajaOngkir)
                 }
                 else -> {
                     binding.loadingPB.gone()
@@ -117,5 +116,30 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    private fun setupAdapter(rajaOngkir: CostResponse.RajaOngkir?) {
+        val listPostageFee = arrayListOf<CostPostageFee>()
+        for (i in rajaOngkir?.results?.indices ?: return) {
+            val costs = rajaOngkir.results[i]?.costs
+            for (j in costs?.indices ?: return) {
+                val cost = rajaOngkir.results[i]?.costs?.get(j)?.cost
+                for (k in cost?.indices ?: return) {
+                    val code = rajaOngkir.results[i]?.code
+                    val name = rajaOngkir.results[i]?.name
+                    val service = costs[j]?.service
+                    val description = costs[j]?.description
+                    val value = cost[k]?.value
+                    val etd = cost[k]?.etd
+                    listPostageFee.add(CostPostageFee(code, name, service, description, etd, value))
+                }
+            }
+        }
+
+        openActivity(PostageFeeActivity::class.java) {
+            putParcelableArrayList(PostageFeeActivity.DATA_POSTAGE_FEE, listPostageFee)
+            putParcelable(PostageFeeActivity.DATA_ORIGIN, rajaOngkir.originDetails)
+            putParcelable(PostageFeeActivity.DATA_DESTINATION, rajaOngkir.destinationDetails)
+        }
     }
 }

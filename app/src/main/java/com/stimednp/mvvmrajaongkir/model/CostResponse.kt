@@ -1,7 +1,9 @@
 package com.stimednp.mvvmrajaongkir.model
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
 data class CostResponse(
     @SerializedName("rajaongkir")
@@ -18,9 +20,10 @@ data class CostResponse(
         @SerializedName("results")
         val results: List<Results?>? = null,
         @SerializedName("status")
-        val status: Status? =  null
+        val status: Status? = null
     ) {
 
+        @Parcelize
         data class DestinationDetails(
             @SerializedName("city_id")
             val cityId: String? = null,
@@ -34,8 +37,9 @@ data class CostResponse(
             val provinceId: String? = null,
             @SerializedName("type")
             val type: String? = null
-        )
+        ) : Parcelable
 
+        @Parcelize
         data class OriginDetails(
             @SerializedName("city_id")
             val cityId: String? = null,
@@ -49,7 +53,7 @@ data class CostResponse(
             val provinceId: String? = null,
             @SerializedName("type")
             val type: String? = null
-        )
+        ) : Parcelable
 
         data class Query(
             @SerializedName("courier")
