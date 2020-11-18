@@ -11,6 +11,8 @@
     <string name="check_postage_fee">Check Postage Fee</string>
     <string name="courier">Courier</string>
     <string name="form_empty">Some Form is Empty!</string>
+    <string name="message_error">SOMETHING ERROR : %1$s</string>
+    <string name="courier_not_available">Courier %1$s is not available on this origin/destination city</string>
 
     <string-array name="list_courier">
         <item>POS</item>

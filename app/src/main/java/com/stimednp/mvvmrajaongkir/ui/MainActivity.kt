@@ -11,7 +11,10 @@ import com.stimednp.mvvmrajaongkir.model.CityResponse
 import com.stimednp.mvvmrajaongkir.model.CostPostageFee
 import com.stimednp.mvvmrajaongkir.model.CostResponse
 import com.stimednp.mvvmrajaongkir.model.ResultData
-import com.stimednp.mvvmrajaongkir.util.*
+import com.stimednp.mvvmrajaongkir.util.gone
+import com.stimednp.mvvmrajaongkir.util.myToast
+import com.stimednp.mvvmrajaongkir.util.openActivity
+import com.stimednp.mvvmrajaongkir.util.visible
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
@@ -50,23 +53,14 @@ class MainActivity : AppCompatActivity() {
         val listCity = mainViewModel.getCities(API_KEY)
         listCity.observe(this, {
             when (it) {
-                is ResultData.Loading -> {
-                    binding.loadingPB.visible()
-                }
                 is ResultData.Success -> {
                     binding.loadingPB.gone()
                     initSpinner(it.data?.rajaOngkir?.results ?: return@observe)
                 }
-                is ResultData.Failed -> {
-                    myToast("SOMETHING FAILED : $it")
-                }
-                is ResultData.Exception -> {
-                    myToast("SOMETHING EXCEPTION : $it")
-                }
-                else -> {
-                    binding.loadingPB.gone()
-                    myToast("SOMETHING ELSE : $it")
-                }
+                is ResultData.Loading -> binding.loadingPB.visible()
+                is ResultData.Failed -> showErrorMessage(it.message.toString())
+                is ResultData.Exception -> showErrorMessage(it.message.toString())
+                else -> showErrorMessage(it.toString())
             }
         })
     }
@@ -109,17 +103,14 @@ class MainActivity : AppCompatActivity() {
         val costData = mainViewModel.getCost(API_KEY, origin, destination, weight, courier)
         costData.observe(this, {
             when (it) {
-                is ResultData.Loading -> {
-                    binding.loadingPB.visible()
-                }
                 is ResultData.Success -> {
                     binding.loadingPB.gone()
                     setupAdapter(it.data?.rajaOngkir)
                 }
-                else -> {
-                    binding.loadingPB.gone()
-                    loge("SOMETHING ELSE : $it")
-                }
+                is ResultData.Loading -> binding.loadingPB.visible()
+                is ResultData.Failed -> showErrorMessage(it.message.toString())
+                is ResultData.Exception -> showErrorMessage(it.message.toString())
+                else -> showErrorMessage(it.toString())
             }
         })
     }
@@ -146,6 +137,12 @@ class MainActivity : AppCompatActivity() {
             putParcelableArrayList(PostageFeeActivity.DATA_POSTAGE_FEE, listPostageFee)
             putParcelable(PostageFeeActivity.DATA_ORIGIN, rajaOngkir.originDetails)
             putParcelable(PostageFeeActivity.DATA_DESTINATION, rajaOngkir.destinationDetails)
+            putString(PostageFeeActivity.DATA_COURIER_NAME, rajaOngkir.query?.courier)
         }
+    }
+
+    private fun showErrorMessage(message: String) {
+        binding.loadingPB.gone()
+        myToast(getString(R.string.message_error, message))
     }
 }
