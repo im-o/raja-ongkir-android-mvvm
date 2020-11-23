@@ -1,8 +1,7 @@
-package com.stimednp.mvvmrajaongkir.network
+package com.stimednp.mvvmrajaongkir.data.network
 
-import com.stimednp.mvvmrajaongkir.model.CityResponse
-import com.stimednp.mvvmrajaongkir.model.CostResponse
-import com.stimednp.mvvmrajaongkir.model.ProvinceResponse
+import com.stimednp.mvvmrajaongkir.data.model.city.CityResponse
+import com.stimednp.mvvmrajaongkir.data.model.cost.CostResponse
 import retrofit2.http.*
 
 /**
@@ -12,15 +11,10 @@ import retrofit2.http.*
 
 interface ApiRajaOngkir {
 
-    @GET("province")
-    suspend fun getProvinces(
-        @Query("key") apiKey: String?
-    ) : ProvinceResponse
-
     @GET("city")
     suspend fun getCities(
         @Query("key") apiKey: String?
-    ) : CityResponse
+    ): CityResponse
 
     @FormUrlEncoded
     @POST("cost")
@@ -30,5 +24,5 @@ interface ApiRajaOngkir {
         @Field("destination") destination: String?,
         @Field("weight") weight: Int?,
         @Field("courier") courier: String?
-    ) : CostResponse
+    ): CostResponse
 }

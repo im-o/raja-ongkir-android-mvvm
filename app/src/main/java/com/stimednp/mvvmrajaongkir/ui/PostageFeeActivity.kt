@@ -4,10 +4,12 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.stimednp.mvvmrajaongkir.R
+import com.stimednp.mvvmrajaongkir.data.model.CostPostageFee
+import com.stimednp.mvvmrajaongkir.data.model.cost.DestinationDetails
+import com.stimednp.mvvmrajaongkir.data.model.cost.OriginDetails
 import com.stimednp.mvvmrajaongkir.databinding.ActivityPostageFeeBinding
-import com.stimednp.mvvmrajaongkir.model.CostPostageFee
-import com.stimednp.mvvmrajaongkir.model.CostResponse
 import com.stimednp.mvvmrajaongkir.util.gone
+import com.stimednp.mvvmrajaongkir.util.localID
 import com.stimednp.mvvmrajaongkir.util.visible
 import java.util.*
 
@@ -22,8 +24,8 @@ class PostageFeeActivity : AppCompatActivity() {
     private val postageFeeAdapter: PostageFeeAdapter by lazy { PostageFeeAdapter() }
     private lateinit var binding: ActivityPostageFeeBinding
     private var costPostageFee: ArrayList<CostPostageFee>? = null
-    private var originCity: CostResponse.RajaOngkir.OriginDetails? = null
-    private var destinationCity: CostResponse.RajaOngkir.DestinationDetails? = null
+    private var originCity: OriginDetails? = null
+    private var destinationCity: DestinationDetails? = null
     private var courierName: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,10 +42,10 @@ class PostageFeeActivity : AppCompatActivity() {
         setupAdapter(costPostageFee ?: return)
     }
 
-    private fun initView(originCity: CostResponse.RajaOngkir.OriginDetails?, destinationCity: CostResponse.RajaOngkir.DestinationDetails?, courierName: String?) {
+    private fun initView(originCity: OriginDetails?, destinationCity: DestinationDetails?, courierName: String?) {
         val strTransportationLine = "${originCity?.cityName} - ${destinationCity?.cityName}"
         binding.transportationLineTV.text = strTransportationLine
-        binding.noDataTV.text = getString(R.string.courier_not_available, courierName?.toUpperCase(Locale.US))
+        binding.noDataTV.text = getString(R.string.courier_not_available, courierName?.toUpperCase(localID()))
     }
 
     private fun setupAdapter(listPostageFee: ArrayList<CostPostageFee>) {

@@ -2,9 +2,8 @@ package com.stimednp.mvvmrajaongkir.di
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.stimednp.mvvmrajaongkir.APIKey.Companion.API_KEY
 import com.stimednp.mvvmrajaongkir.BuildConfig
-import com.stimednp.mvvmrajaongkir.network.ApiRajaOngkir
+import com.stimednp.mvvmrajaongkir.data.network.ApiRajaOngkir
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -4,9 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.stimednp.mvvmrajaongkir.data.model.CostPostageFee
+import com.stimednp.mvvmrajaongkir.data.model.DiffUtilCost
 import com.stimednp.mvvmrajaongkir.databinding.ItemCostBinding
-import com.stimednp.mvvmrajaongkir.model.CostPostageFee
-import com.stimednp.mvvmrajaongkir.model.DiffUtilCost
+import com.stimednp.mvvmrajaongkir.util.toRupiah
 
 /**
  * Created by rivaldy on Nov/16/2020.
@@ -30,7 +31,7 @@ class PostageFeeAdapter : ListAdapter<CostPostageFee, PostageFeeAdapter.CostView
                 codeTV.text = item.code
                 serviceTV.text = item.service
                 serviceDescriptionTV.text = item.description
-                costValueTV.text = item.value.toString()
+                costValueTV.text = item.value?.toRupiah()
                 estimationTV.text = item.etd
             }
         }

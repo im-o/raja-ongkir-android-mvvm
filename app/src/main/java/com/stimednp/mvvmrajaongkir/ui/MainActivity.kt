@@ -6,36 +6,47 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.stimednp.mvvmrajaongkir.APIKey.Companion.API_KEY
 import com.stimednp.mvvmrajaongkir.R
+import com.stimednp.mvvmrajaongkir.data.model.CostPostageFee
+import com.stimednp.mvvmrajaongkir.data.model.ResultData
+import com.stimednp.mvvmrajaongkir.data.model.city.CityResult
+import com.stimednp.mvvmrajaongkir.data.model.cost.CostRajaOngkir
 import com.stimednp.mvvmrajaongkir.databinding.ActivityMainBinding
-import com.stimednp.mvvmrajaongkir.model.CityResponse
-import com.stimednp.mvvmrajaongkir.model.CostPostageFee
-import com.stimednp.mvvmrajaongkir.model.CostResponse
-import com.stimednp.mvvmrajaongkir.model.ResultData
-import com.stimednp.mvvmrajaongkir.util.gone
-import com.stimednp.mvvmrajaongkir.util.myToast
-import com.stimednp.mvvmrajaongkir.util.openActivity
-import com.stimednp.mvvmrajaongkir.util.visible
+import com.stimednp.mvvmrajaongkir.util.*
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private val mainViewModel by viewModels<MainViewModel>()
     private lateinit var binding: ActivityMainBinding
-    private lateinit var listCity: List<CityResponse.RajaOngkir.Result?>
+    private lateinit var listCity: List<CityResult?>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        initViewModel()
+        loadCities()
     }
 
     private fun initClick() {
         binding.checkPostageMB.setOnClickListener { checkedPostageFee() }
     }
 
-    private fun initSpinner(cityResults: List<CityResponse.RajaOngkir.Result?>) {
+    private fun loadCities() {
+        val listCity = mainViewModel.getCities(API_KEY)
+        listCity.observe(this, {
+            when (it) {
+                is ResultData.Success -> {
+                    binding.loadingPB.gone()
+                    initSpinner(it.data?.rajaOngkir?.results ?: return@observe)
+                }
+                is ResultData.Loading -> binding.loadingPB.visible()
+                is ResultData.Failed -> showErrorMessage(it.message.toString())
+                is ResultData.Exception -> showErrorMessage(it.message.toString())
+            }
+        })
+    }
+
+    private fun initSpinner(cityResults: List<CityResult?>) {
         listCity = cityResults
         val cities = mutableListOf<String>()
         val couriers = resources.getStringArray(R.array.list_courier)
@@ -49,24 +60,8 @@ class MainActivity : AppCompatActivity() {
         initClick()
     }
 
-    private fun initViewModel() {
-        val listCity = mainViewModel.getCities(API_KEY)
-        listCity.observe(this, {
-            when (it) {
-                is ResultData.Success -> {
-                    binding.loadingPB.gone()
-                    initSpinner(it.data?.rajaOngkir?.results ?: return@observe)
-                }
-                is ResultData.Loading -> binding.loadingPB.visible()
-                is ResultData.Failed -> showErrorMessage(it.message.toString())
-                is ResultData.Exception -> showErrorMessage(it.message.toString())
-                else -> showErrorMessage(it.toString())
-            }
-        })
-    }
-
-    private fun checkedForm(selectedCity: String): CityResponse.RajaOngkir.Result? {
-        var city: CityResponse.RajaOngkir.Result? = null
+    private fun checkedForm(selectedCity: String): CityResult? {
+        var city: CityResult? = null
         val dataCity = listCity.filter {
             it?.cityName?.contains(selectedCity) ?: false
         }
@@ -87,8 +82,7 @@ class MainActivity : AppCompatActivity() {
         if (strDestinationCity.isNotEmpty() && strOriginCity.isNotEmpty() && strCourier.isNotEmpty() && strWeight.isNotEmpty()) {
             val originCity = checkedForm(strOriginCity)
             val destinationCity = checkedForm(strDestinationCity)
-
-            val courier = strCourier.toLowerCase(Locale.US)
+            val courier = strCourier.toLowerCase(localID())
             val weight = strWeight.toInt()
             val idOriginCity = originCity?.cityId ?: ""
             val idDestinationCity = destinationCity?.cityId ?: ""
@@ -110,24 +104,23 @@ class MainActivity : AppCompatActivity() {
                 is ResultData.Loading -> binding.loadingPB.visible()
                 is ResultData.Failed -> showErrorMessage(it.message.toString())
                 is ResultData.Exception -> showErrorMessage(it.message.toString())
-                else -> showErrorMessage(it.toString())
             }
         })
     }
 
-    private fun setupAdapter(rajaOngkir: CostResponse.RajaOngkir?) {
+    private fun setupAdapter(rajaOngkir: CostRajaOngkir?) {
         val listPostageFee = arrayListOf<CostPostageFee>()
         for (i in rajaOngkir?.results?.indices ?: return) {
-            val costs = rajaOngkir.results[i]?.costs
+            val costs = rajaOngkir.results[i].costs
             for (j in costs?.indices ?: return) {
-                val cost = rajaOngkir.results[i]?.costs?.get(j)?.cost
+                val cost = rajaOngkir.results[i].costs?.get(j)?.cost
                 for (k in cost?.indices ?: return) {
-                    val code = rajaOngkir.results[i]?.code
-                    val name = rajaOngkir.results[i]?.name
-                    val service = costs[j]?.service
-                    val description = costs[j]?.description
-                    val value = cost[k]?.value
-                    val etd = cost[k]?.etd
+                    val code = rajaOngkir.results[i].code
+                    val name = rajaOngkir.results[i].name
+                    val service = costs[j].service
+                    val description = costs[j].description
+                    val value = cost[k].value
+                    val etd = cost[k].etd
                     listPostageFee.add(CostPostageFee(code, name, service, description, etd, value))
                 }
             }

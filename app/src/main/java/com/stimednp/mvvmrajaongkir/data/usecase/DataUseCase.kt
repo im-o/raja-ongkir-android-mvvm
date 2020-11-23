@@ -1,10 +1,9 @@
-package com.stimednp.mvvmrajaongkir.usecase
+package com.stimednp.mvvmrajaongkir.data.usecase
 
-import com.stimednp.mvvmrajaongkir.model.CityResponse
-import com.stimednp.mvvmrajaongkir.model.CostResponse
-import com.stimednp.mvvmrajaongkir.model.ProvinceResponse
-import com.stimednp.mvvmrajaongkir.model.ResultData
-import com.stimednp.mvvmrajaongkir.repositories.DataRepository
+import com.stimednp.mvvmrajaongkir.data.model.ResultData
+import com.stimednp.mvvmrajaongkir.data.model.city.CityResponse
+import com.stimednp.mvvmrajaongkir.data.model.cost.CostResponse
+import com.stimednp.mvvmrajaongkir.data.repositories.DataRepository
 import javax.inject.Inject
 
 /**
@@ -18,19 +17,6 @@ class DataUseCase @Inject constructor(
 
     companion object {
         const val STATUS_OK = 200
-    }
-
-    suspend fun getProvinces(apiKey: String): ResultData<ProvinceResponse> {
-        val provinceResponse = dataRepository.getProvinces(apiKey)
-        return try {
-            if (provinceResponse.rajaOngkir?.status?.code == STATUS_OK) {
-                ResultData.Success(provinceResponse)
-            } else {
-                ResultData.Failed(provinceResponse.rajaOngkir?.status?.description)
-            }
-        } catch (e: Exception) {
-            ResultData.Exception(e.message)
-        }
     }
 
     suspend fun getCities(apiKey: String): ResultData<CityResponse> {

@@ -1,9 +1,8 @@
-package com.stimednp.mvvmrajaongkir.repositories
+package com.stimednp.mvvmrajaongkir.data.repositories
 
-import com.stimednp.mvvmrajaongkir.model.CityResponse
-import com.stimednp.mvvmrajaongkir.model.CostResponse
-import com.stimednp.mvvmrajaongkir.model.ProvinceResponse
-import com.stimednp.mvvmrajaongkir.network.ApiRajaOngkir
+import com.stimednp.mvvmrajaongkir.data.model.city.CityResponse
+import com.stimednp.mvvmrajaongkir.data.model.cost.CostResponse
+import com.stimednp.mvvmrajaongkir.data.network.ApiRajaOngkir
 import javax.inject.Inject
 
 /**
@@ -14,10 +13,6 @@ import javax.inject.Inject
 class DataRepository @Inject constructor(
     private val apiRajaOngkir: ApiRajaOngkir
 ) {
-
-    suspend fun getProvinces(apiKey: String): ProvinceResponse {
-        return apiRajaOngkir.getProvinces(apiKey)
-    }
 
     suspend fun getCities(apiKey: String): CityResponse {
         return apiRajaOngkir.getCities(apiKey)

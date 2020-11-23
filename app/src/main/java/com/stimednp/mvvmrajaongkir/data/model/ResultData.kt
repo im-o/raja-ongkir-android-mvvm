@@ -1,4 +1,4 @@
-package com.stimednp.mvvmrajaongkir.model
+package com.stimednp.mvvmrajaongkir.data.model
 
 /**
  * Created by rivaldy on Nov/15/2020.

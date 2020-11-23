@@ -1,7 +1,7 @@
 package com.stimednp.mvvmrajaongkir.di
 
-import com.stimednp.mvvmrajaongkir.network.ApiRajaOngkir
-import com.stimednp.mvvmrajaongkir.repositories.DataRepository
+import com.stimednp.mvvmrajaongkir.data.network.ApiRajaOngkir
+import com.stimednp.mvvmrajaongkir.data.repositories.DataRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -1,4 +1,4 @@
-package com.stimednp.mvvmrajaongkir.model
+package com.stimednp.mvvmrajaongkir.data.model
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
