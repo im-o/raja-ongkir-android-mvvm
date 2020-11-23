@@ -49,7 +49,6 @@ class PostageFeeActivity : AppCompatActivity() {
     private fun setupAdapter(listPostageFee: ArrayList<CostPostageFee>) {
         if (listPostageFee.size > 0) binding.noDataTV.gone() else binding.noDataTV.visible()
         postageFeeAdapter.submitList(listPostageFee)
-        postageFeeAdapter.notifyDataSetChanged()
         binding.costListRV.apply {
             layoutManager = LinearLayoutManager(this@PostageFeeActivity)
             setHasFixedSize(true)
