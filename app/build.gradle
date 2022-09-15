@@ -1,19 +1,19 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-    id 'kotlin-android-extensions'
+    id 'kotlin-parcelize'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'org.jetbrains.kotlin.android'
 }
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.0"
+    compileSdk 32
 
     defaultConfig {
         applicationId "com.stimednp.mvvmrajaongkir"
-        minSdkVersion 21
-        targetSdkVersion 30
+        minSdk 21
+        targetSdk 32
         versionCode 1
         versionName "1.0"
 
@@ -66,13 +66,13 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:$okHttp3_version"
     implementation "com.github.bumptech.glide:glide:$glide_version"
 
-    //Hilt Dependency Injection
+    // DI - Hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
-    kapt "com.google.dagger:hilt-android-compiler:2.28-alpha"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
 
-    //View Model with Hilt
-    implementation 'androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha02'
-    kapt 'androidx.hilt:hilt-compiler:1.0.0-alpha02'
+    // ViewModel with Hilt
+    implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_viewmodels"
+    kapt "androidx.hilt:hilt-compiler:$hilt_viewmodels"
 
     //For Use Dependency on Activity and Fragment
     implementation "androidx.activity:activity-ktx:$activity_version"

@@ -12,10 +12,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MVVMRajaOngkir">
-        <activity android:name=".ui.PostageFeeActivity"></activity>
+        <activity android:name=".ui.PostageFeeActivity" />
         <activity
             android:name=".ui.MainActivity"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustPan"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
