@@ -1,7 +1,7 @@
 package com.stimednp.mvvmrajaongkir.data.model
 
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 /**
  * Created by rivaldy on Nov/16/2020.

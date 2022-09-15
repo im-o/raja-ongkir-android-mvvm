@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.widget.ArrayAdapter
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.stimednp.mvvmrajaongkir.APIKey.Companion.API_KEY
 import com.stimednp.mvvmrajaongkir.R
 import com.stimednp.mvvmrajaongkir.data.model.CostPostageFee
 import com.stimednp.mvvmrajaongkir.data.model.ResultData
@@ -32,8 +31,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadCities() {
-        val listCity = mainViewModel.getCities(API_KEY)
-        listCity.observe(this, {
+        val listCity = mainViewModel.getCities()
+        listCity.observe(this) {
             when (it) {
                 is ResultData.Success -> {
                     binding.loadingPB.gone()
@@ -43,7 +42,7 @@ class MainActivity : AppCompatActivity() {
                 is ResultData.Failed -> showErrorMessage(it.message.toString())
                 is ResultData.Exception -> showErrorMessage(it.message.toString())
             }
-        })
+        }
     }
 
     private fun initSpinner(cityResults: List<CityResult?>) {
@@ -82,7 +81,7 @@ class MainActivity : AppCompatActivity() {
         if (strDestinationCity.isNotEmpty() && strOriginCity.isNotEmpty() && strCourier.isNotEmpty() && strWeight.isNotEmpty()) {
             val originCity = checkedForm(strOriginCity)
             val destinationCity = checkedForm(strDestinationCity)
-            val courier = strCourier.toLowerCase(localID())
+            val courier = strCourier.lowercase(localID())
             val weight = strWeight.toInt()
             val idOriginCity = originCity?.cityId ?: ""
             val idDestinationCity = destinationCity?.cityId ?: ""
@@ -94,8 +93,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkedCost(origin: String, destination: String, weight: Int, courier: String) {
-        val costData = mainViewModel.getCost(API_KEY, origin, destination, weight, courier)
-        costData.observe(this, {
+        val costData = mainViewModel.getCost(origin, destination, weight, courier)
+        costData.observe(this) {
             when (it) {
                 is ResultData.Success -> {
                     binding.loadingPB.gone()
@@ -105,7 +104,7 @@ class MainActivity : AppCompatActivity() {
                 is ResultData.Failed -> showErrorMessage(it.message.toString())
                 is ResultData.Exception -> showErrorMessage(it.message.toString())
             }
-        })
+        }
     }
 
     private fun setupAdapter(rajaOngkir: CostRajaOngkir?) {
