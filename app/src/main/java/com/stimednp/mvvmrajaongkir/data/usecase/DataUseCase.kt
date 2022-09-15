@@ -19,9 +19,9 @@ class DataUseCase @Inject constructor(
         const val STATUS_OK = 200
     }
 
-    suspend fun getCities(apiKey: String): ResultData<CityResponse> {
+    suspend fun getCities(): ResultData<CityResponse> {
         return try {
-            val cityResponse = dataRepository.getCities(apiKey)
+            val cityResponse = dataRepository.getCities()
             if (cityResponse.rajaOngkir?.status?.code == STATUS_OK) {
                 ResultData.Success(cityResponse)
             } else {
@@ -33,14 +33,13 @@ class DataUseCase @Inject constructor(
     }
 
     suspend fun getCost(
-        apiKey: String,
         origin: String,
         destination: String,
         weight: Int,
         courier: String
     ): ResultData<CostResponse> {
         return try {
-            val costResponse = dataRepository.getCost(apiKey, origin, destination, weight, courier)
+            val costResponse = dataRepository.getCost(origin, destination, weight, courier)
             if (costResponse.rajaOngkir?.status?.code == STATUS_OK) {
                 ResultData.Success(costResponse)
             } else {

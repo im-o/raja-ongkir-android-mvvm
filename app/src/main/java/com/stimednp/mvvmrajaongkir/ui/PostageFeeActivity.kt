@@ -11,7 +11,6 @@ import com.stimednp.mvvmrajaongkir.databinding.ActivityPostageFeeBinding
 import com.stimednp.mvvmrajaongkir.util.gone
 import com.stimednp.mvvmrajaongkir.util.localID
 import com.stimednp.mvvmrajaongkir.util.visible
-import java.util.*
 
 class PostageFeeActivity : AppCompatActivity() {
     companion object {
@@ -45,7 +44,7 @@ class PostageFeeActivity : AppCompatActivity() {
     private fun initView(originCity: OriginDetails?, destinationCity: DestinationDetails?, courierName: String?) {
         val strTransportationLine = "${originCity?.cityName} - ${destinationCity?.cityName}"
         binding.transportationLineTV.text = strTransportationLine
-        binding.noDataTV.text = getString(R.string.courier_not_available, courierName?.toUpperCase(localID()))
+        binding.noDataTV.text = getString(R.string.courier_not_available, courierName?.uppercase(localID()))
     }
 
     private fun setupAdapter(listPostageFee: ArrayList<CostPostageFee>) {
